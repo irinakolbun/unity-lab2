@@ -20,11 +20,11 @@ public class SphereTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Something entered trigger");
         if (other.gameObject.tag == "Player")
         {
             Debug.Log("Player entered trigger, loading second scene");
-            SceneManager.LoadScene("Scene 2");
+            SceneManager.LoadScene("Scene 2", LoadSceneMode.Single);
+            DontDestroyOnLoad(PlayerController.instance.gameObject);
         }
     }
 }

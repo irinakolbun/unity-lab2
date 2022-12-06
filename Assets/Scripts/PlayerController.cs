@@ -12,9 +12,17 @@ public class PlayerController : MonoBehaviour
     public Camera camera;
     private Vector3 moveDirection = Vector3.zero;
 
+    public static PlayerController instance;
+    public static bool hasBeenInstantiated = false;
+
     // Start is called before the first frame update
     void Start()
     {
+        if (!hasBeenInstantiated)
+        {
+            Instantiate(gameObject);
+        }
+        
         characterController = GetComponent<CharacterController>();
     }
 
@@ -62,5 +70,19 @@ public class PlayerController : MonoBehaviour
         angleX = Mathf.Clamp(angleX, -90f, 90f);
         q.x = Mathf.Tan(0.5f * Mathf.Deg2Rad * angleX);
         return q;
-    }    
+    }
+ 
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+
+        hasBeenInstantiated = true;
+    }
 }
